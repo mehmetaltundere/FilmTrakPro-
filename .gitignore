@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.db
+filmtrak_pro.db
+.env
+.venv
+env/
+venv/
+.vscode/
+.idea/
