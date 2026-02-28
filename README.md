@@ -82,8 +82,6 @@
 *   `api.py`: External OMDb API integration services. / Harici OMDb API entegrasyon servisleri.
 *   `models.py`: Core data structures and entities. / Temel veri yapıları ve varlıklar.
 
----
-
 ## 🤝 Contribution / Katkıda Bulunma
 
 ### [EN] English
@@ -102,5 +100,3 @@ Katkılarınızı bekliyoruz. Büyük değişiklikler için önce bir konu (issu
 4. Dalınıza İtin (`git push origin feature/YeniOzellik`).
 5. Bir Çekme İsteği (Pull Request) Açın.
 
----
-*Developed for professional portfolio and open-source contribution.* / *Profesyonel portfolyo ve açık kaynak katkısı için geliştirilmiştir.*
