@@ -22,6 +22,8 @@ class FilmTrakUI:
         self._load_data()
 
     def _setup_styles(self):
+        # [EN] Configure modern UI styles and colors
+        # [TR] Modern arayüz stillerini ve renklerini yapılandır
         style = ttk.Style()
         style.theme_use("clam")
         
@@ -44,7 +46,11 @@ class FilmTrakUI:
         style.configure("TEntry", fieldbackground=secondary_bg, foreground=fg_color, borderwidth=0)
         
     def _create_widgets(self):
-        # Üst Arama Çubuğu
+        # [EN] Create and pack UI components
+        # [TR] Arayüz bileşenlerini oluştur ve yerleştir
+
+        # [EN] Upper Search Bar
+        # [TR] Üst Arama Çubuğu
         search_frame = ttk.Frame(self.root)
         search_frame.pack(fill="x", padx=30, pady=20)
 
@@ -54,11 +60,13 @@ class FilmTrakUI:
 
         ttk.Button(search_frame, text="FİLM ARA", command=self.search_movie).pack(side="left")
 
-        # Ana İçerik
+        # [EN] Main Content Area
+        # [TR] Ana İçerik Alanı
         main_content = ttk.Frame(self.root)
         main_content.pack(fill="both", expand=True, padx=30)
 
-        # Sol Panel: Film Detayları
+        # [EN] Left Panel: Movie Details
+        # [TR] Sol Panel: Film Detayları
         left_panel = ttk.Frame(main_content)
         left_panel.pack(side="left", fill="both", expand=True)
 
@@ -74,7 +82,8 @@ class FilmTrakUI:
         self.info_text.pack(pady=5)
         self.info_text.config(state="disabled")
 
-        # Butonlar
+        # [EN] Action Buttons
+        # [TR] İşlem Butonları
         btn_frame = ttk.Frame(left_panel)
         btn_frame.pack(pady=10)
 
@@ -84,11 +93,13 @@ class FilmTrakUI:
         self.imdb_btn.pack(side="left", padx=5)
         self.imdb_btn.state(['disabled'])
 
-        # Sağ Panel: Listeler ve İstatistikler
+        # [EN] Right Panel: Lists and Statistics
+        # [TR] Sağ Panel: Listeler ve İstatistikler
         right_panel = ttk.Frame(main_content)
         right_panel.pack(side="right", fill="both", padx=(20, 0))
 
-        # Kitaplık
+        # [EN] Library Listbox
+        # [TR] Kitaplık Liste Kutusu
         ttk.Label(right_panel, text="Kitaplığım", font=("Segoe UI Bold", 12)).pack(anchor="w")
         self.lib_search = ttk.Entry(right_panel, font=("Segoe UI", 10))
         self.lib_search.pack(fill="x", pady=2)
@@ -98,7 +109,8 @@ class FilmTrakUI:
                                        highlightthickness=0, width=40, height=10)
         self.library_list.pack(pady=(2, 10))
 
-        # Dashboard ve İşlemler
+        # [EN] Dashboard and Operations
+        # [TR] Dashboard ve İşlemler
         stats_frame = ttk.Frame(right_panel)
         stats_frame.pack(fill="x", pady=5)
         
@@ -109,13 +121,15 @@ class FilmTrakUI:
         ttk.Button(stats_frame, text="🎲 Öneri", 
                    style="Action.TButton", command=self.suggest_random).pack(side="left", expand=True, fill="x", padx=2)
 
-        # Son Yorumlar
+        # [EN] Recent Comments Section
+        # [TR] Son Yorumlar Bölümü
         ttk.Label(right_panel, text="Son Yorumlar", font=("Segoe UI Bold", 12)).pack(anchor="w", pady=(10,0))
         self.comment_list = tk.Listbox(right_panel, bg="#313244", fg="#cdd6f4", borderwidth=0, 
                                         highlightthickness=0, width=40, height=5)
         self.comment_list.pack(pady=5)
 
-        # Alt Bilgi: Geçmiş
+        # [EN] Footer: Search History
+        # [TR] Alt Bilgi: Arama Geçmişi
         history_frame = ttk.Frame(self.root)
         history_frame.pack(fill="x", side="bottom", padx=30, pady=10)
         ttk.Label(history_frame, text="Son Aramalar: ", font=("Segoe UI", 9, "italic")).pack(side="left")
@@ -123,6 +137,8 @@ class FilmTrakUI:
         self.history_label.pack(side="left")
 
     def search_movie(self):
+        # [EN] Trigger movie search via API
+        # [TR] API üzerinden film aramasını başlat
         query = self.search_entry.get().strip()
         if not query: return
 
@@ -137,6 +153,8 @@ class FilmTrakUI:
             messagebox.showwarning("Hata", f"'{query}' bulunamadı!")
 
     def _display_movie(self, movie: Movie):
+        # [EN] Render movie data to UI components
+        # [TR] Film verilerini arayüz bileşenlerine aktar
         self.title_label.config(text=f"{movie.title} ({movie.year})")
         info = f"⭐ IMDb: {movie.rating}  |  ⏳ Süre: {movie.runtime}\n"
         info += f"🎬 Yönetmen: {movie.director}\n"
@@ -159,6 +177,8 @@ class FilmTrakUI:
             self.poster_label.config(image="", text="Afiş Yok")
 
     def save_movie(self):
+        # [EN] Add current movie to library and collection
+        # [TR] Mevcut filmi kütüphaneye ve koleksiyona ekle
         if not self.current_movie: return
         liste = simpledialog.askstring("Liste", "Liste adı (Örn: Favoriler, Sonra İzle):")
         if liste:
@@ -168,6 +188,8 @@ class FilmTrakUI:
             self._update_ui_lists()
 
     def mark_as_watched(self):
+        # [EN] Mark movie as watched and save rating
+        # [TR] Filmi izlenenlere işaretle ve puanı kaydet
         if not self.current_movie: return
         puan = simpledialog.askinteger("Puan", "Puanınız (1-5):", minvalue=1, maxvalue=5)
         if puan:
@@ -177,6 +199,8 @@ class FilmTrakUI:
             self._update_ui_lists()
 
     def show_stats(self):
+        # [EN] Display application analytics in a modal
+        # [TR] Uygulama istatistiklerini bir pencerede göster
         s = self.db.istatistik_getir()
         msg = f"📊 İSTATİSTİKLER\n"
         msg += f"-------------------\n"
@@ -188,10 +212,14 @@ class FilmTrakUI:
         messagebox.showinfo("Dashboard", msg)
 
     def open_imdb(self):
+        # [EN] Redirect to IMDb web page
+        # [TR] IMDb web sayfasına yönlendir
         if self.current_movie:
             self.api.open_imdb_page(self.current_movie.imdb_id)
 
     def delete_selected(self):
+        # [EN] Delete the selected movie from library
+        # [TR] Seçili filmi kütüphaneden sil
         sel = self.library_list.curselection()
         if not sel: return
         movies = self.db.filmleri_getir()
@@ -201,6 +229,8 @@ class FilmTrakUI:
             self._update_ui_lists()
 
     def filter_library(self):
+        # [EN] Live filter library list based on search term
+        # [TR] Arama terimine göre kütüphane listesini anlık filtrele
         term = self.lib_search.get().strip()
         self.library_list.delete(0, tk.END)
         movies = self.db.film_ara_kutuphane(term) if term else self.db.filmleri_getir()
@@ -208,10 +238,14 @@ class FilmTrakUI:
             self.library_list.insert(tk.END, f"• {t}")
 
     def suggest_random(self):
+        # [EN] Show a random suggestion from library
+        # [TR] Kütüphaneden rastgele bir öneri göster
         res = self.db.rastgele_film_oner()
         if res: messagebox.showinfo("Öneri", f"Şunu izleyebilirsin: {res[0]}")
 
     def _update_ui_lists(self):
+        # [EN] Refresh all list components in the UI
+        # [TR] Arayüzdeki tüm liste bileşenlerini yenile
         self.library_list.delete(0, tk.END)
         for _, t in self.db.filmleri_getir():
             self.library_list.insert(tk.END, f"• {t}")
@@ -224,4 +258,6 @@ class FilmTrakUI:
         if h: self.history_label.config(text=", ".join([x[0] for x in h[:5]]))
 
     def _load_data(self):
+        # [EN] Initial data load on startup
+        # [TR] Açılışta ilk veri yüklemesi
         self._update_ui_lists()

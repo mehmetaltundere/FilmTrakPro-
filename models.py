@@ -2,6 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Movie:
+    # [EN] Core data model for a movie entity
+    # [TR] Film varlığı için temel veri modeli
     imdb_id: str
     title: str
     year: str
